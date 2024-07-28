@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'adopt-openjdk'
+        distribution: 'temurin'
     
     - name: Compile Java code
       run: |
@@ -35,4 +35,4 @@ jobs:
         wget https://repo1.maven.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar -P lib
         
         # Run tests
-        java -cp "out:lib/*" org.junit.jupiter.engine.JupiterTestEngine
+        java -cp "out:lib/*" org.junit.platform.console.ConsoleLauncher --scan-classpath
