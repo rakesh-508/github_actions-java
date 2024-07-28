@@ -30,6 +30,7 @@ jobs:
         wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar -P lib
         wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar -P lib
         wget https://repo1.maven.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar -P lib
+        wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.7.0/junit-platform-console-standalone-1.7.0.jar -P lib
     
     - name: Compile Java code
       run: javac -cp "lib/*" -d out src/addition/Addition.java src/addition/AdditionTest.java
