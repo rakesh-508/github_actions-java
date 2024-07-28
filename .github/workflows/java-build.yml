@@ -1,0 +1,38 @@
+name: Build and Test Java Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adopt-openjdk'
+    
+    - name: Compile Java code
+      run: |
+        mkdir -p out
+        javac -d out src/addition/Addition.java src/addition/AdditionTest.java
+    
+    - name: Run tests
+      run: |
+        # Install JUnit
+        wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar -P lib
+        wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar -P lib
+        wget https://repo1.maven.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar -P lib
+        
+        # Run tests
+        java -cp "out:lib/*" org.junit.jupiter.engine.JupiterTestEngine
