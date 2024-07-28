@@ -22,17 +22,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Compile Java code
+    - name: Create output directories
+      run: mkdir -p out lib
+    
+    - name: Download JUnit dependencies
       run: |
-        mkdir -p out
-        javac -d out src/addition/Addition.java src/addition/AdditionTest.java
+        wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar -P lib
+        wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar -P lib
+        wget https://repo1.maven.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar -P lib
+    
+    - name: Compile Java code
+      run: javac -cp "lib/*" -d out src/addition/Addition.java src/addition/AdditionTest.java
     
     - name: Run tests
-      run: |
-        # Install JUnit
-        wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar -P lib
-        wget https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar -P lib
-        wget https://repo1.maven.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar -P lib
-        
-        # Run tests
-        java -cp "out:lib/*" org.junit.platform.console.ConsoleLauncher --scan-classpath
+      run: java -cp "out:lib/*" org.junit.platform.console.ConsoleLauncher --scan-classpath
